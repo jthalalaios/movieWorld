@@ -1,0 +1,88 @@
+version: "3.7"
+
+services:
+  movieworld-api:
+    build:
+      context: ./
+      dockerfile: ./movieWorld-api/Dockerfile
+    container_name: movieWorld-api
+    restart: unless-stopped
+    tty: true
+    environment:
+      - DB_CONNECTION=${POSTGRES_DB_CONNECTION}
+      - DB_HOST=${POSTGRES_DB_HOST}
+      - DB_PORT=${POSTGRES_DB_PORT}
+      - DB_DATABASE=${POSTGRES_DB_DATABASE}
+      - DB_USERNAME=${POSTGRES_DB_USERNAME}
+      - DB_PASSWORD=${POSTGRES_DB_PASSWORD}
+    ports:
+      - "${MOVIEWORLD_API_PORT}:${MOVIEWORLD_PORT}"
+    volumes:
+      - type: bind
+        source: ../movieWorld-backend
+        target: /var/www/html
+      - type: volume
+        source: apache-logs
+        target: /var/log/apache2
+    networks:
+      - movieworld-network
+    depends_on:
+      - movieworld-postgres
+
+  movieworld-postgres:
+    image: postgres:15.2
+    container_name: movieWorld-postgres
+    restart: always
+    tty: true
+    ports:
+      - "${POSTGRES_DB_HOST_PORT}:${POSTGRES_DB_PORT}"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB_DATABASE}
+      - POSTGRES_USER=${POSTGRES_DB_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_DB_PASSWORD}
+    volumes:
+      - type: volume
+        source: postgres-data
+        target: /var/lib/postgresql/data
+    networks:
+      - movieworld-network
+
+  nginx-proxy:
+    build:
+      context: ./
+      dockerfile: ./nginx/Dockerfile
+    container_name: nginx-proxy
+    networks:
+      - movieworld-network
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - nginx-conf:/etc/nginx/conf.d
+      - nginx-host:/etc/nginx/vhost.d
+      - nginx-html:/usr/share/nginx/html
+      - nginx-certs:/etc/nginx/certs
+    ports:
+      - 80:80
+      - 443:443
+    healthcheck:
+      test: ["CMD", "service", "nginx", "status"]
+      interval: 5m
+      timeout: 10s
+      retries: 1
+      start_period: 30s
+    
+volumes:
+  apache-logs:
+    name: movieworld-apache-logs
+  postgres-data:
+    name: movieworld-postgres-data
+  nginx-conf:
+  nginx-host:
+  nginx-html:
+  nginx-certs:
+
+networks:
+  movieworld-network:
+    external: true
+
+    
+
