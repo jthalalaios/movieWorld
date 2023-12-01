@@ -43,7 +43,7 @@ I have included all api calls into the: movieWorld.postman_collection.json
 Credentials for postman: https://www.postman.com/
 
 username: userpostmanapi123
-password: 123test321!
+password: 123div321!
 
 After log in into postman:
     1) Go to workspaces , then Project then movieWorld collections (all api-calls are there)
