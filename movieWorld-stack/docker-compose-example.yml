@@ -30,7 +30,7 @@ services:
       - movieworld-postgres
 
   movieworld-postgres:
-    image: postgres:15.2
+    image: postgres:16.1
     container_name: movieWorld-postgres
     restart: always
     tty: true
