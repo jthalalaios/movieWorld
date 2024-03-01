@@ -6,7 +6,7 @@
 
 Docker:
 
-    1. Install docker: https://www.docker.com/
+    1. Install docker: https://www.docker.com
     2. Make sure your user belongs to docker’s group, else you have to run the commands with sudo
     3. Install docker-compose 
 
