@@ -1,4 +1,4 @@
-# movieWorld
+# movieWorld , laravel 9
 
 1.Rename .env-example to .env (inside movieWorld-backend and on movieWorld-stack)
 2.Rename docker-compose-example.yml to docker-compose.yml (inside movieWorld-stack)
