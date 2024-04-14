@@ -38,16 +38,7 @@ After docker's containers are up for the movieWorld’s stack:
        
 MovieWorld – api:
 
-I have included all api calls into the: movieWorld.postman_collection.json
-
-Credentials for postman: https://www.postman.com/
-
-username: userpostmanapi123
-password: 123div321!
-
-After log in into postman:
-    1) Go to workspaces , then Project then movieWorld collections (all api-calls are there)
-    2) Below the postman user’s icon , it says “No Environment”, select the movieWorld (so the app_url dynamic will be the localhost:8004/api and the api_token (Bearer token) will be taken every time on success log in or will be destroyed on log out) 
+I have included all api calls into the: movieWorld.postman_collection.json  , it is inside in the folder named "movieWorld-stack"
 
 Some info about the api:
     • User’s model uses soft deletes so when a user is deleted , user is not removed completely and on get method for movies , it wont bring this user’s movies which created by that user.
